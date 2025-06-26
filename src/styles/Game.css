@@ -1,5 +1,15 @@
 .game {
+    max-width: 1700px;
+    margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 25px;
+}
+
+.score {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
 }
