@@ -4,12 +4,102 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
     gap: 25px;
 }
 
+.loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-content {
+    width: 250px;
+    height: 300px;
+    margin-top: 5rem;
+    padding: 2rem;
+    background-color: #212429;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 2rem;
+    border: 5px solid #ffffff;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 .score {
-    margin-top: 2rem;
+    margin: 2rem 0;
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 1rem;
+}
+
+button {
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #242424;
+    color: #e7e7e7;
+    border-radius: 5px;
+    border: 1px solid #e7e7e7;
+    cursor: pointer;
+    transition: 200ms ease-in-out;
+}
+
+button:hover {
+    background-color: #e7e7e7;
+    color: #242424;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: #212529;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+}
+
+.modal > * {
+    margin: 1rem 0;
 }

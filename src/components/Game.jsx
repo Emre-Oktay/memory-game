@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Card from './Card';
+import { RetryIcon, NewDeckIcon } from './Icons';
 import '../styles/Game.css';
 
 async function fetchRandomArtworks(count = 12) {
@@ -18,7 +19,12 @@ async function fetchRandomArtworks(count = 12) {
                 `https://api.artic.edu/api/v1/artworks?page=${page}&limit=100&fields=id,title,artist_title,date_display,image_id`
             )
                 .then((res) => (res.ok ? res.json() : { data: [] }))
-                .then((data) => data.data.filter((art) => art && art.image_id))
+                .then((data) =>
+                    data.data.filter(
+                        //Archival collection id is filtered
+                        (art) => art && art.image_id && art.image_id !== '342b2214-04d5-de63-b577-55a08a618960'
+                    )
+                )
                 .catch(() => []);
         });
 
@@ -114,11 +120,34 @@ export default function Game() {
         }
     }
 
-    if (loading) return <div className="loading">Loading artwork...</div>;
+    if (loading)
+        return (
+            <div className="loading">
+                <div className="loading-content">
+                    <span className="loader"></span>
+                    <p>Loading artwork...</p>
+                </div>
+            </div>
+        );
 
     return (
         <>
-            {gameOver && <div>Game Over</div>}
+            {gameOver && (
+                <div className="modal-backdrop">
+                    <div className="modal">
+                        <h2>Game Over</h2>
+                        <p>Your score: {score}</p>
+                        <button onClick={reset}>
+                            <RetryIcon />
+                            <span>Retry</span>
+                        </button>
+                        <button onClick={newDeck}>
+                            <NewDeckIcon />
+                            <span>New Deck</span>
+                        </button>
+                    </div>
+                </div>
+            )}
             <div className="game">
                 {artworks.map((art) => (
                     <Card
@@ -135,8 +164,14 @@ export default function Game() {
             <section className="score">
                 <span>Current Score: {score}</span>
                 <span>High Score: {highScore}</span>
-                <button onClick={reset}>Retry</button>
-                <button onClick={newDeck}>New Deck</button>
+                <button onClick={reset}>
+                    <RetryIcon />
+                    <span>Retry</span>
+                </button>
+                <button onClick={newDeck}>
+                    <NewDeckIcon />
+                    <span>New Deck</span>
+                </button>
             </section>
         </>
     );
