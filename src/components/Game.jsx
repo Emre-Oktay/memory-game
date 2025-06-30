@@ -63,7 +63,7 @@ export default function Game() {
     const [picked, setPicked] = useState([]);
     const [score, setScore] = useState(0);
     const [highScore, setHighScore] = useState(0);
-    const [gameOver, setGameOver] = useState(false);
+    const [gameState, setGameState] = useState('active');
 
     useEffect(() => {
         let ignore = false;
@@ -88,11 +88,12 @@ export default function Game() {
 
     function pickCard(id) {
         if (picked.includes(id)) {
-            setGameOver(true);
+            setGameState('lose');
         } else {
             const newScore = score + 1;
             setScore(newScore);
             if (newScore > highScore) setHighScore(newScore);
+            if (newScore === artworks.length) setGameState('win');
             setPicked([...picked, id]);
             setArtworks(shuffle(artworks));
         }
@@ -102,7 +103,7 @@ export default function Game() {
         setArtworks(shuffle(artworks));
         setPicked([]);
         setScore(0);
-        setGameOver(false);
+        setGameState('active');
     }
 
     async function newDeck() {
@@ -112,7 +113,7 @@ export default function Game() {
             setArtworks(newArtworks);
             setPicked([]);
             setScore(0);
-            setGameOver(false);
+            setGameState('active');
         } catch (err) {
             console.error('Failed to fetch new artworks:', err);
         } finally {
@@ -132,10 +133,26 @@ export default function Game() {
 
     return (
         <>
-            {gameOver && (
+            {gameState === 'lose' && (
                 <div className="modal-backdrop">
                     <div className="modal">
                         <h2>Game Over</h2>
+                        <p>Your score: {score}</p>
+                        <button onClick={reset}>
+                            <RetryIcon />
+                            <span>Retry</span>
+                        </button>
+                        <button onClick={newDeck}>
+                            <NewDeckIcon />
+                            <span>New Deck</span>
+                        </button>
+                    </div>
+                </div>
+            )}
+            {gameState === 'win' && (
+                <div className="modal-backdrop">
+                    <div className="modal">
+                        <h2>You won</h2>
                         <p>Your score: {score}</p>
                         <button onClick={reset}>
                             <RetryIcon />
