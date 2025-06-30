@@ -19,6 +19,7 @@
 
 .card:hover {
     transform: scale(1.03);
+    box-shadow: 0 0 1rem rgba(192, 192, 192, 0.6);
 }
 
 .card-overlay {
